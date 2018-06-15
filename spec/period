@@ -1,0 +1,22 @@
+def solution(n)
+    d = Array.new(30)
+    l = 0
+    while (n > 0)
+        d[l] = n % 2
+        n /= 2
+        l += 1
+    end
+    for p in 1 .. l
+        ok = true
+        for i in 0 .. l - p - 1
+            if (d[i] != d[i  +  p]) then
+                ok = false
+                break
+            end
+        end
+        if (ok) then
+            return p
+        end
+    end
+    return -1
+end
