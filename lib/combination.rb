@@ -7,13 +7,12 @@ class Combination
 
   def one_pair?
     faces = []
-    @cards.each do |card|
+    cards.each do |card|
       faces << card.face
     end
-    print faces
-    faces.each_cons(2) do |cons|
-      print cons
-      return true if cons[0] == cons[1]
+
+    faces.each do |face|
+      return true if faces.count(face) == 2
     end
     false
   end
