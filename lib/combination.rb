@@ -5,7 +5,18 @@ class Combination
   attr_accessor :cards, :c_name, :combo
 
   def <=>(anOther)
-    COMBINATIONS.index(c_name) <=> COMBINATIONS.index(anOther.c_name)
+    return -1 if COMBINATIONS.index(c_name) < COMBINATIONS.index(anOther.c_name)
+    return 1 if COMBINATIONS.index(c_name) > COMBINATIONS.index(anOther.c_name)
+
+    if COMBINATIONS.index(c_name) == COMBINATIONS.index(anOther.c_name)
+      if combo.max > anOther.combo.max
+        return 1
+      elsif combo.max < anOther.combo.max
+        return -1
+      else
+        return 0
+      end
+    end
   end
 
   def initialize(hand, table)
@@ -34,14 +45,5 @@ class Combination
 
   def self.highest_hand(combination1, combination2, combination3)
     hand = [combination1, combination2, combination3].max
-
-      # case hand
-      # when combination1
-      #   "Player A with #{combination1.c_name}"
-      # when combination2
-      #   "Player B with #{combination2.c_name}"
-      # when combination3
-      #   "Player C with #{combination3.c_name}"
-      # end
   end
 end

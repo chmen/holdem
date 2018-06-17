@@ -3,15 +3,19 @@ require 'combination'
 describe 'Combination' do
   let!(:card1) { Card.new('2', 'H') }
   let!(:card2) { Card.new('3', 'S') }
+
   let!(:card3) { Card.new('K', 'C') }
   let!(:card4) { Card.new('4', 'H') }
   let!(:card5) { Card.new('7', 'H') }
   let!(:card6) { Card.new('J', 'C') }
   let!(:card7) { Card.new('3', 'C') }
+
   let!(:card8) { Card.new('5', 'C') }
   let!(:card9) { Card.new('6', 'C') }
+
   let!(:card10) { Card.new('A', 'C') }
   let!(:card11) { Card.new('2', 'D') }
+
   let!(:card12) { Card.new('3', 'D') }
   let!(:card13) { Card.new('J', 'D') }
 
@@ -72,35 +76,42 @@ describe 'Combination' do
       end
     end
 
-    describe 'simple combination comparison' do
-      it 'compare hands' do
-        CardStack.add_card_to_table(table, deck)
-        CardStack.add_card_to_table(table, deck)
-
-        combination1.c_name = 'pair'
-        combination2.c_name = 'high_card'
-
-        expect(combination1 > combination2).to eq true
-      end
-    end
-
     describe '.highest_hand' do
-      it 'compare hands' do
+      context 'with only one pair in hands' do
+        it 'compare hands' do
 
-        CardStack.add_card_to_table(table, deck)
-        CardStack.add_card_to_table(table, deck)
+          CardStack.add_card_to_table(table, deck)
+          CardStack.add_card_to_table(table, deck)
 
 
-        combination1.c_name = combination1.highest_combination[0]
-        combination2.c_name = combination2.highest_combination[0]
-        combination3.c_name = combination3.highest_combination[0]
+          combination1.c_name = combination1.highest_combination[0]
+          combination1.combo = combination1.highest_combination[1]
+          combination2.c_name = combination2.highest_combination[0]
+          combination2.combo = combination2.highest_combination[1]
+          combination3.c_name = combination3.highest_combination[0]
+          combination3.combo = combination3.highest_combination[1]
 
-        # combination1.c_name = combination1.highest_combination
-        # combination2.c_name = combination2.highest_combination
-        # combination3.c_name = combination3.highest_combination
+          h_hand = Combination.highest_hand(combination1, combination2, combination3)
+          expect(h_hand).to eq combination3
+        end
+      end
+      context 'with two equal combination in hands' do
+        it 'choose with highest card' do
+          card11 = Card.new('K', 'D')
 
-        h_hand = Combination.highest_hand(combination1, combination2, combination3)
-        expect(h_hand).to eq combination3
+          CardStack.add_card_to_table(table, deck)
+          CardStack.add_card_to_table(table, deck)
+
+          combination1.c_name = combination1.highest_combination[0]
+          combination1.combo = combination1.highest_combination[1]
+          combination2.c_name = combination2.highest_combination[0]
+          combination2.combo = combination2.highest_combination[1]
+          combination3.c_name = combination3.highest_combination[0]
+          combination3.combo = combination3.highest_combination[1]
+
+          h_hand = Combination.highest_hand(combination1, combination2, combination3)
+          expect(h_hand).to eq combination3
+        end
       end
     end
   end
