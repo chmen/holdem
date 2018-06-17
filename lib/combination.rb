@@ -23,6 +23,8 @@ class Combination
     @hand = hand
     @table = table
     @cards = hand.cards + table.cards
+    @c_name = highest_combination[0]
+    @combo = highest_combination[1]
   end
 
   def pair

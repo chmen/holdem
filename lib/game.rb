@@ -39,23 +39,15 @@ class Game
     combination2 = Combination.new(handB, @table)
     combination3 = Combination.new(handC, @table)
 
-    combination1.c_name = combination1.highest_combination[0]
-    combination1.combo = combination1.highest_combination[1]
-    combination2.c_name = combination2.highest_combination[0]
-    combination2.combo = combination2.highest_combination[1]
-    combination3.c_name = combination3.highest_combination[0]
-    combination3.combo = combination3.highest_combination[1]
-
-
     hand = Combination.highest_hand(combination1, combination2, combination3)
 
     case hand
     when combination1
-      "Player A with #{combination1.c_name}"
+      "Player A with #{combination1.c_name} - #{combination1.combo}"
     when combination2
-      "Player B with #{combination2.c_name}"
+      "Player B with #{combination2.c_name} - #{combination2.combo}"
     when combination3
-      "Player C with #{combination3.c_name}"
+      "Player C with #{combination3.c_name} - #{combination3.combo}"
     end
   end
 end
