@@ -32,11 +32,16 @@ class Combination
     high_card
   end
 
-  # def self.highest_hand(handA, handB, handC, table)
-  #   combinationA = Combination.new(handA, table)
-  #   combinationB = Combination.new(handB, table)
-  #   combinationC = Combination.new(handC, table)
+  def self.highest_hand(combination1, combination2, combination3)
+    hand = [combination1, combination2, combination3].max
 
-
-  # end
+      case hand
+      when combination1
+        "Player A with #{combination1.c_name}"
+      when combination2
+        "Player B with #{combination2.c_name}"
+      when combination3
+        "Player C with #{combination3.c_name}"
+      end
+  end
 end

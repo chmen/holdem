@@ -1,6 +1,7 @@
 # TODO: check require type
 require_relative 'card'
 require_relative 'card_stack'
+require_relative 'combination'
 
 class Game
 
@@ -30,23 +31,21 @@ class Game
     puts "cards in deck left #{@deck.cards.count}"
 
     # Player A win: 2D 4D 7D KD AD (flush)
-    winner = determin_winner(handA, handB, handC, @table)
-    puts "The winner is #{winner}"
+    puts winner = determin_winner(handA, handB, handC, @table)
   end
 
   def determin_winner(handA, handB, handC, table)
-    highest_combination = [handA, handB, handC].shuffle.first
-    case highest_combination
-    when handA
-      winner = 'Player A '
-    when handB
-      winner = 'Player B'
-    when handC
-      winner = 'Player C'
-    end
-    "#{winner} + with + #{highest_combination.cards}"
+    combination1 = Combination.new(handA, @table)
+    combination2 = Combination.new(handB, @table)
+    combination3 = Combination.new(handC, @table)
+
+    combination1.c_name = combination1.highest_combination
+    combination2.c_name = combination2.highest_combination
+    combination3.c_name = combination3.highest_combination
+
+    hand = Combination.highest_hand(combination1, combination2, combination3)
   end
 end
 
-# game = Game.new
-# game.play
+game = Game.new
+game.play
