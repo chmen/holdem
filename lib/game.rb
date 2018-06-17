@@ -1,23 +1,22 @@
-# TODO: check require type
 require_relative 'card'
 require_relative 'card_stack'
 require_relative 'combination'
 
+# Test class for terminal, lunch with  $ruby game.rb from lib
 class Game
-
   def play
     @deck = CardStack.card_deck
 
     # Player A hand: AD KD
-    handA = CardStack.hand(@deck)
-    puts "Player A hand #{handA.cards}"
-    # deck.cards = deck.cards - handA.cards
+    hand_a = CardStack.hand(@deck)
+    puts "Player A hand #{hand_a.cards}"
+    # deck.cards = deck.cards - hand_a.cards
     # Player B hand: AC TD
-    handB = CardStack.hand(@deck)
-    puts "Player B hand #{handB.cards}"
+    hand_b = CardStack.hand(@deck)
+    puts "Player B hand #{hand_b.cards}"
     # Player C hand: QD QC
-    handC = CardStack.hand(@deck)
-    puts "Player C hand #{handC.cards}"
+    hand_c = CardStack.hand(@deck)
+    puts "Player C hand #{hand_c.cards}"
 
     # Table on flop: 2D 5C 7D
     @table = CardStack.table_on_flop(@deck)
@@ -31,13 +30,13 @@ class Game
     puts "cards in deck left #{@deck.cards.count}"
 
     # Player A win: 2D 4D 7D KD AD (flush)
-    puts winner = determin_winner(handA, handB, handC, @table)
+    puts determin_winner(hand_a, hand_b, hand_c)
   end
 
-  def determin_winner(handA, handB, handC, table)
-    combination1 = Combination.new(handA, @table)
-    combination2 = Combination.new(handB, @table)
-    combination3 = Combination.new(handC, @table)
+  def determin_winner(hand_a, hand_b, hand_c)
+    combination1 = Combination.new(hand_a, @table)
+    combination2 = Combination.new(hand_b, @table)
+    combination3 = Combination.new(hand_c, @table)
 
     hand = Combination.highest_hand(combination1, combination2, combination3)
 
