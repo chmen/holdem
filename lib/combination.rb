@@ -1,21 +1,19 @@
+# Hold date and behavior of cards combinations
 class Combination
   include Comparable
 
-  COMBINATIONS = %w[high_card pair two_pair three_of_a_kind straight flush full_house four_of_a_kind straight_flush]
+  COMBINATIONS = %w[high_card pair two_pair three_of_a_kind straight flush
+                    full_house four_of_a_kind straight_flush].freeze
   attr_accessor :cards, :c_name, :combo
 
-  def <=>(anOther)
-    return -1 if COMBINATIONS.index(c_name) < COMBINATIONS.index(anOther.c_name)
-    return 1 if COMBINATIONS.index(c_name) > COMBINATIONS.index(anOther.c_name)
+  def <=>(other)
+    return -1 if COMBINATIONS.index(c_name) < COMBINATIONS.index(other.c_name)
+    return 1 if COMBINATIONS.index(c_name) > COMBINATIONS.index(other.c_name)
 
-    if COMBINATIONS.index(c_name) == COMBINATIONS.index(anOther.c_name)
-      if combo.max > anOther.combo.max
-        return 1
-      elsif combo.max < anOther.combo.max
-        return -1
-      else
-        return 0
-      end
+    if COMBINATIONS.index(c_name) == COMBINATIONS.index(other.c_name)
+      return 1 if combo.max > other.combo.max
+      return -1 if combo.max < other.combo.max
+      return 0
     end
   end
 
@@ -29,7 +27,7 @@ class Combination
 
   def pair
     @cards.each_with_index do |card, index|
-      @cards[(index+1)..-1].each do |c|
+      @cards[(index + 1)..-1].each do |c|
         return ['pair', [card, c]] if card.face == c.face
       end
     end
@@ -46,6 +44,6 @@ class Combination
   end
 
   def self.highest_hand(combination1, combination2, combination3)
-    hand = [combination1, combination2, combination3].max
+    [combination1, combination2, combination3].max
   end
 end
