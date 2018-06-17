@@ -1,19 +1,38 @@
 require 'combination'
 
 describe 'Combination' do
+  let!(:card1) { Card.new('2', 'H') }
+  let!(:card2) { Card.new('3', 'S') }
+  let!(:card3) { Card.new('J', 'C') }
+  let!(:card4) { Card.new('4', 'H') }
+  let!(:card5) { Card.new('7', 'H') }
+  let!(:card6) { Card.new('J', 'C') }
+  let!(:card7) { Card.new('3', 'C') }
+  let!(:card8) { Card.new('5', 'C') }
+  let!(:card9) { Card.new('6', 'C') }
+  let!(:card10) { Card.new('A', 'C') }
+  let!(:card11) { Card.new('2', 'D') }
+  let!(:card12) { Card.new('3', 'D') }
+  let!(:card13) { Card.new('J', 'D') }
+
+  let!(:deck) { CardStack.new([card1, card2, card3, card4, card5, card6, card7,
+                               card8, card9, card10, card11, card12, card13]) }
+  let!(:table) { CardStack.table_on_flop(deck) }
+
+  let!(:handA) { CardStack.hand(deck) }
+  let!(:handB) { CardStack.hand(deck) }
+  let!(:handC) { CardStack.hand(deck) }
+
+  let!(:combination1) { Combination.new(handA, table) }
+  let!(:combination2) { Combination.new(handB, table) }
+  let!(:combination3) { Combination.new(handC, table) }
+
   describe '#initialize' do
     it 'create array with 7 cards' do
-      card1 = Card.new('2', 'H')
-      card2 = Card.new('3', 'S')
       handA = CardStack.new([card1, card2])
-
-      card3 = Card.new('2', 'C')
-      card4 = Card.new('4', 'H')
-      card5 = Card.new('5', 'H')
-      card6 = Card.new('6', 'D')
-      card7 = Card.new('A', 'S')
       table = CardStack.new([card3, card4, card5, card6, card7])
       combination = Combination.new(handA, table)
+
       expect(combination.cards.count).to eq 7
       expect(combination.cards.class).to eq Array
       expect(combination.cards[0].class).to eq Card
@@ -22,118 +41,63 @@ describe 'Combination' do
 
   describe '#high_card' do
     it 'return highest card in combination' do
-      card1 = Card.new('2', 'H')
-      card2 = Card.new('3', 'S')
-      card3 = Card.new('2', 'C')
-      card4 = Card.new('4', 'H')
-      card5 = Card.new('5', 'H')
-      card6 = Card.new('6', 'D')
-      card7 = Card.new('A', 'S')
-      @deck = CardStack.new([card1, card2, card3, card4, card5, card6, card7])
+      CardStack.add_card_to_table(table, deck)
+      CardStack.add_card_to_table(table, deck)
 
-      handA = CardStack.hand(@deck)
-      @table = CardStack.table_on_flop(@deck)
-      CardStack.add_card_to_table(@table, @deck)
-      CardStack.add_card_to_table(@table, @deck)
-      combination = Combination.new(handA, @table)
-      expect(combination.high_card).to eq ['high_card', [card7]]
+      expect(combination3.high_card).to eq ['high_card', [card6]]
     end
   end
 
   describe '#pair' do
     it 'return pair from combination' do
-      card1 = Card.new('2', 'H')
-      card2 = Card.new('3', 'S')
-      card3 = Card.new('2', 'C')
-      card4 = Card.new('4', 'H')
-      card5 = Card.new('5', 'H')
-      card6 = Card.new('6', 'D')
-      card7 = Card.new('A', 'S')
-      @deck = CardStack.new([card1, card2, card3, card4, card5, card6, card7])
-
-      handA = CardStack.hand(@deck)
-      @table = CardStack.table_on_flop(@deck)
-      CardStack.add_card_to_table(@table, @deck)
-      CardStack.add_card_to_table(@table, @deck)
-      combination = Combination.new(handA, @table)
-      expect(combination.pair).to eq ['pair', [card1, card3]] || ['pair', [card3, card1]]
+      CardStack.add_card_to_table(table, deck)
+      CardStack.add_card_to_table(table, deck)
+      expect(combination3.pair).to eq ['pair', [card13, card6]]
     end
   end
 
   describe '#highest_combination' do
     context 'when pair in hand + table' do
       it 'return highest combination from hand + table' do
-        card1 = Card.new('2', 'H')
-        card2 = Card.new('3', 'S')
-        card3 = Card.new('2', 'C')
-        card4 = Card.new('4', 'H')
-        card5 = Card.new('5', 'H')
-        card6 = Card.new('6', 'D')
-        card7 = Card.new('A', 'S')
-
-        @deck = CardStack.new([card1, card2, card3, card4, card5, card6, card7])
-
-        handA = CardStack.hand(@deck)
-        @table = CardStack.table_on_flop(@deck)
-        CardStack.add_card_to_table(@table, @deck)
-        CardStack.add_card_to_table(@table, @deck)
-        combination = Combination.new(handA, @table)
-        expect(combination.highest_combination).to eq ['pair', [card1, card3]] || ['pair', [card3, card1]]
+        CardStack.add_card_to_table(table, deck)
+        CardStack.add_card_to_table(table, deck)
+        expect(combination3.highest_combination).to eq ['pair', [card13, card6]]
       end
     end
     context 'when nothing in hand + table' do
       it 'return highest combination from hand + table' do
-        card1 = Card.new('2', 'H')
-        card2 = Card.new('3', 'S')
-        card3 = Card.new('J', 'C')
-        card4 = Card.new('4', 'H')
-        card5 = Card.new('5', 'H')
-        card6 = Card.new('6', 'D')
-        card7 = Card.new('A', 'S')
+        CardStack.add_card_to_table(table, deck)
+        CardStack.add_card_to_table(table, deck)
 
-        @deck = CardStack.new([card1, card2, card3, card4, card5, card6, card7])
-
-        handA = CardStack.hand(@deck)
-        @table = CardStack.table_on_flop(@deck)
-        CardStack.add_card_to_table(@table, @deck)
-        CardStack.add_card_to_table(@table, @deck)
-        combination = Combination.new(handA, @table)
-        expect(combination.highest_combination).to eq ['high_card', [card7]]
+        expect(combination1.highest_combination).to eq ['high_card', [card10]]
       end
     end
 
     describe 'simple combination comparison' do
       it 'compare hands' do
-        card1 = Card.new('2', 'H')
-        card2 = Card.new('3', 'S')
-        card3 = Card.new('J', 'C')
-        card4 = Card.new('4', 'H')
-        card5 = Card.new('5', 'H')
-        card6 = Card.new('6', 'D')
-        card7 = Card.new('A', 'S')
-        card8 = Card.new('5', 'C')
-        card9 = Card.new('6', 'C')
-        card10 = Card.new('A', 'C')
-
-
-        @deck = CardStack.new([card1, card2, card3, card4, card5, card6, card7,
-                               card8, card9, card10])
-
-        handA = CardStack.hand(@deck)
-        handB = CardStack.hand(@deck)
-
-        @table = CardStack.table_on_flop(@deck)
-        CardStack.add_card_to_table(@table, @deck)
-        CardStack.add_card_to_table(@table, @deck)
-
-
-        combination1 = Combination.new(handA, @table)
-        combination2 = Combination.new(handB, @table)
+        CardStack.add_card_to_table(table, deck)
+        CardStack.add_card_to_table(table, deck)
 
         combination1.c_name = 'pair'
         combination2.c_name = 'high_card'
 
         expect(combination1 > combination2).to eq true
+      end
+    end
+
+    describe '.highest_hand' do
+      it 'compare hands' do
+
+        CardStack.add_card_to_table(table, deck)
+        CardStack.add_card_to_table(table, deck)
+
+        combination1.c_name = combination1.highest_combination
+        combination2.c_name = combination2.highest_combination
+        combination3.c_name = combination3.highest_combination
+
+        hand = Combination.highest_hand(combination1, combination2, combination3)
+
+        expect(hand).to eq "Player A with #{combination1.c_name}"
       end
     end
   end
