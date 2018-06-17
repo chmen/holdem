@@ -1,3 +1,4 @@
+# For any stack of cards
 class CardStack
   attr_accessor :cards
 
@@ -12,7 +13,7 @@ class CardStack
         array_of_cards << Card.new(face, suit)
       end
     end
-    deck = CardStack.new(array_of_cards.shuffle!)
+    CardStack.new(array_of_cards.shuffle!)
   end
 
   def self.hand(deck)
