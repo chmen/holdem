@@ -1,19 +1,22 @@
 class Combination
   attr_accessor :cards
 
-  def initialize(cards)
-    @cards = cards
+  def initialize(hand, table)
+    @hand = hand
+    @table = table
+    @cards = hand.cards + table.cards
   end
 
-  def one_pair?
-    faces = []
-    cards.each do |card|
-      faces << card.face
+  def pair
+    @cards.each_with_index do |card, index|
+      @cards[(index+1)..-1].each do |c|
+        return [card, c] if card.face == c.face
+      end
     end
+    []
+  end
 
-    faces.each do |face|
-      return true if faces.count(face) == 2
-    end
-    false
+  def highest_card
+    @cards.max
   end
 end
