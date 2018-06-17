@@ -20,4 +20,15 @@ class CardStack
     deck.cards = deck.cards - hand.cards
     hand
   end
+
+  def self.table_on_flop(deck)
+    table = CardStack.new(deck.cards.last(3))
+    deck.cards = deck.cards - table.cards
+    table
+  end
+
+  def self.add_card_to_table(table, deck)
+    table.cards = table.cards << deck.cards.last
+    deck.cards.pop
+  end
 end
