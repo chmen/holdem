@@ -14,4 +14,10 @@ class CardStack
     end
     deck = CardStack.new(array_of_cards.shuffle!)
   end
+
+  def self.hand(deck)
+    hand = CardStack.new(deck.cards.last(2))
+    deck.cards = deck.cards - hand.cards
+    hand
+  end
 end
