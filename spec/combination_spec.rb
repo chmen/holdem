@@ -3,7 +3,7 @@ require 'combination'
 describe 'Combination' do
   let!(:card1) { Card.new('2', 'H') }
   let!(:card2) { Card.new('3', 'S') }
-  let!(:card3) { Card.new('J', 'C') }
+  let!(:card3) { Card.new('K', 'C') }
   let!(:card4) { Card.new('4', 'H') }
   let!(:card5) { Card.new('7', 'H') }
   let!(:card6) { Card.new('J', 'C') }
@@ -68,7 +68,6 @@ describe 'Combination' do
       it 'return highest combination from hand + table' do
         CardStack.add_card_to_table(table, deck)
         CardStack.add_card_to_table(table, deck)
-
         expect(combination1.highest_combination).to eq ['high_card', [card10]]
       end
     end
@@ -91,13 +90,17 @@ describe 'Combination' do
         CardStack.add_card_to_table(table, deck)
         CardStack.add_card_to_table(table, deck)
 
-        combination1.c_name = combination1.highest_combination
-        combination2.c_name = combination2.highest_combination
-        combination3.c_name = combination3.highest_combination
 
-        hand = Combination.highest_hand(combination1, combination2, combination3)
+        combination1.c_name = combination1.highest_combination[0]
+        combination2.c_name = combination2.highest_combination[0]
+        combination3.c_name = combination3.highest_combination[0]
 
-        expect(hand).to eq "Player A with #{combination1.c_name}"
+        # combination1.c_name = combination1.highest_combination
+        # combination2.c_name = combination2.highest_combination
+        # combination3.c_name = combination3.highest_combination
+
+        h_hand = Combination.highest_hand(combination1, combination2, combination3)
+        expect(h_hand).to eq combination3
       end
     end
   end

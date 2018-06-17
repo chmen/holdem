@@ -1,7 +1,7 @@
 class Combination
   include Comparable
 
-  COMBINATIONS = %w[high_card pair two pair three_of_a_kind straight flush full_house four_of_a_kind straight_flush]
+  COMBINATIONS = %w[high_card pair two_pair three_of_a_kind straight flush full_house four_of_a_kind straight_flush]
   attr_accessor :cards, :c_name, :combo
 
   def <=>(anOther)
@@ -35,13 +35,13 @@ class Combination
   def self.highest_hand(combination1, combination2, combination3)
     hand = [combination1, combination2, combination3].max
 
-      case hand
-      when combination1
-        "Player A with #{combination1.c_name}"
-      when combination2
-        "Player B with #{combination2.c_name}"
-      when combination3
-        "Player C with #{combination3.c_name}"
-      end
+      # case hand
+      # when combination1
+      #   "Player A with #{combination1.c_name}"
+      # when combination2
+      #   "Player B with #{combination2.c_name}"
+      # when combination3
+      #   "Player C with #{combination3.c_name}"
+      # end
   end
 end
