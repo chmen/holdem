@@ -36,7 +36,7 @@ describe 'Combination' do
       CardStack.add_card_to_table(@table, @deck)
       CardStack.add_card_to_table(@table, @deck)
       combination = Combination.new(handA, @table)
-      expect(combination.high_card).to eq ['high card', [card7]]
+      expect(combination.high_card).to eq ['high_card', [card7]]
     end
   end
 
@@ -98,7 +98,42 @@ describe 'Combination' do
         CardStack.add_card_to_table(@table, @deck)
         CardStack.add_card_to_table(@table, @deck)
         combination = Combination.new(handA, @table)
-        expect(combination.highest_combination).to eq ['high card', [card7]]
+        expect(combination.highest_combination).to eq ['high_card', [card7]]
+      end
+    end
+
+    describe 'simple combination comparison' do
+      it 'compare hands' do
+        card1 = Card.new('2', 'H')
+        card2 = Card.new('3', 'S')
+        card3 = Card.new('J', 'C')
+        card4 = Card.new('4', 'H')
+        card5 = Card.new('5', 'H')
+        card6 = Card.new('6', 'D')
+        card7 = Card.new('A', 'S')
+        card8 = Card.new('5', 'C')
+        card9 = Card.new('6', 'C')
+        card10 = Card.new('A', 'C')
+
+
+        @deck = CardStack.new([card1, card2, card3, card4, card5, card6, card7,
+                               card8, card9, card10])
+
+        handA = CardStack.hand(@deck)
+        handB = CardStack.hand(@deck)
+
+        @table = CardStack.table_on_flop(@deck)
+        CardStack.add_card_to_table(@table, @deck)
+        CardStack.add_card_to_table(@table, @deck)
+
+
+        combination1 = Combination.new(handA, @table)
+        combination2 = Combination.new(handB, @table)
+
+        combination1.c_name = 'pair'
+        combination2.c_name = 'high_card'
+
+        expect(combination1 > combination2).to eq true
       end
     end
   end
